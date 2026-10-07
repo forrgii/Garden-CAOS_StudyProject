@@ -1,0 +1,17 @@
+# Скомпилированные файлы
+*.o
+smart_flowers
+test_smart_flowers
+
+# Логи (не коммитим)
+logs/
+*.log
+
+# Редакторы
+.vscode/
+.idea/
+*.swp
+
+# ОС
+.DS_Store
+Thumbs.db
