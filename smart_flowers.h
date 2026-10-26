@@ -5,8 +5,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include <signal.h>
+#include <pthread.h>
+#include <semaphore.h>
 
-// Параметры модели (значения по умолчанию)
+#define TICK_MS 100
+
 extern int N_FLOWERS;
 extern int N_GARDENERS;
 extern int SIMULATION_TIME;
@@ -18,17 +21,10 @@ extern int WATERING_DURATION;
 extern int RECOVERY_DURATION;
 extern int PROTECTION_INTERVAL;
 
-// Состояния цветка
 typedef enum {
-    NORMAL,
-    WILTING,
-    WATERING,
-    RECOVERING,
-    DRYING,
-    DEAD
+    NORMAL, WILTING, WATERING, RECOVERING, DRYING, DEAD
 } FlowerState;
 
-// Структура цветка
 typedef struct {
     int id;
     double moisture;
@@ -36,22 +32,30 @@ typedef struct {
     FlowerState state;
     int has_request;
     int request_time;
-    int state_timer;
+    int state_timer;      // <--- ВОТ ОНО, теперь оно снова здесь
     int last_water_time;
+    pthread_t thread;
 } Flower;
 
-// Структура садовника
 typedef struct {
     int id;
     int is_busy;
     int current_flower_id;
-    int busy_timer;
+    pthread_t thread;
 } Gardener;
 
-// Прототипы функций
+extern pthread_mutex_t sim_mutex;
+extern sem_t request_sem;
+extern volatile sig_atomic_t stop;
+extern volatile int current_tick;
+extern Flower* flowers_global;
+
 const char* state_name(FlowerState s);
 void init_flowers(Flower* flowers, int n);
 void init_gardeners(Gardener* gardeners, int n);
 int find_request(Flower* flowers, int n_flowers);
+
+void* flower_thread(void* arg);
+void* gardener_thread(void* arg);
 
 #endif

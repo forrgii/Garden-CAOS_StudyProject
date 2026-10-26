@@ -27,15 +27,14 @@ LOG_DIR   = logs
 # --- Флаги ---
 WARN      = -Wall -Wextra -Wpedantic -Wshadow -Wconversion
 
-DBG_FLAGS   = -std=c11 -O0 -g3 -DDEBUG $(WARN) \
-              -fsanitize=address,undefined -fno-omit-frame-pointer
-DBG_LDFLAGS = -fsanitize=address,undefined
+DBG_FLAGS   = -std=gnu11 -O0 -g3 -DDEBUG $(WARN) -pthread
+DBG_LDFLAGS = -pthread
 
-REL_FLAGS   = -std=c11 -O2 -DNDEBUG $(WARN)
-REL_LDFLAGS =
+REL_FLAGS   = -std=gnu11 -O2 -DNDEBUG $(WARN) -pthread
+REL_LDFLAGS = -pthread
 
-VG_FLAGS    = -std=c11 -O0 -g3 -DDEBUG $(WARN)
-VG_LDFLAGS  =
+VG_FLAGS    = -std=gnu11 -O0 -g3 -DDEBUG $(WARN) -pthread
+VG_LDFLAGS  = -pthread
 
 BUILD ?= debug
 
@@ -76,7 +75,7 @@ run: $(TARGET)
 	./$(TARGET)
 
 run-args: $(TARGET)
-	./$(TARGET) 15 3 300
+	./$(TARGET) 15 3 10
 
 # --- Отладка ---
 gdb: debug
