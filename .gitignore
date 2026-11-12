@@ -1,17 +1,20 @@
-# Скомпилированные файлы
+# --- Общие временные файлы и объектники ---
 *.o
-smart_flowers
-test_smart_flowers
-
-# Логи (не коммитим)
-logs/
+*.out
 *.log
 
-# Редакторы
+# --- Задание 2 (Корневая папка) ---
+smart_flowers
+test_smart_flowers
+logs/
+
+# --- Задание 3 (task3_processes) ---
+task3_processes/coordinator
+task3_processes/flower
+task3_processes/gardener
+
+# --- Редакторы и ОС ---
 .vscode/
 .idea/
-*.swp
-
-# ОС
 .DS_Store
 Thumbs.db
